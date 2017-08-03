@@ -1,0 +1,38 @@
+html,body {
+    font-family: Arial, sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#map, #container, #row {
+    height: 100%;
+}
+
+#search-bar {
+    width: 80%;
+    display: inline-block;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+}
+
+.left{
+    height: 100%;
+}
+
+#search{
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#hotel-list{
+    height: 50%;
+    overflow-y: auto;
+}
+
+.hotel-name{
+    border-bottom: thin solid #D3D3D3;
+}
+

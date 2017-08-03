@@ -40,7 +40,8 @@ var ViewModel = {
 
     },
     getHotels: function(){
-        // console.log(this.hotelList);
         return this.hotelList();
     }
 };
+
+ko.applyBindings(ViewModel);

@@ -2,18 +2,7 @@
 <head>
     <title>Udacity Maps Project</title>
     <meta charset="utf-8">
-    <style>
-      html,
-      body {
-        font-family: Arial, sans-serif;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #map, #container, #row {
-        height: 100%;
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <script
     src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js">
@@ -22,16 +11,44 @@
 <body>
     <div id="container">
         <div id="row">
-            <div id="map" class="col-md-12">
+            <div class="aside col-md-3 left">
+                <div id="search">
+                    <input id="search-bar" type="text" placeholder="Enter your favorite area!">
+<!--                 <input id="zoom-to-area" type="button" value="Zoom"> -->
+                    <button class="icon btn btn-primary" onclick="zoomToArea();"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+                <div id="filter" class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary">
+                        <input type="radio" name="options" id="option1" autocomplete="off" checked> > 4
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="options" id="option2" autocomplete="off"> > 3
+                    </label>
+                    <label class="btn btn-primary">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> > 2
+                    </label>
+                </div>
+                <div id="hotel-list">
+                    <ul class="nav nav-pills nav-stacked" data-bind="foreach: hotelList">
+                        <li class="nav-item hotel-name" data-bind="event: { click: listviewClickHandler }">
+                            <a href="#">
+                                <span data-bind="text: name"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
+            <div id="map" class="col-md-6"></div>
+            <div class="aside col-md-3"></div>
         </div>
     </div>
     <script type='text/javascript'>
         var map;
     </script>
     <script type="text/javascript" src="app.js"></script>
-    <script type="text/javascript" src="maps.js"></script>
+    <script async defer type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?v=3&libraries=places&key=AIzaSyBdA9c4g3FXJAdYsx6UD6SbZRXCfLGcgwc&callback=initMap">
     </script>
+    <script type="text/javascript" src="maps.js"></script>
 </body>
