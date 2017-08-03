@@ -18,15 +18,12 @@
                     <button class="icon btn btn-primary" onclick="zoomToArea();"><i class="glyphicon glyphicon-search"></i></button>
                 </div>
                 <div id="filter" class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-primary">
-                        <input type="radio" name="options" id="option1" autocomplete="off" checked> > 4
-                    </label>
-                    <label class="btn btn-primary">
-                        <input type="radio" name="options" id="option2" autocomplete="off"> > 3
-                    </label>
-                    <label class="btn btn-primary">
-                        <input type="radio" name="options" id="option3" autocomplete="off"> > 2
-                    </label>
+                    <button class="btn btn-primary rating" value="4" onclick="setRatingHandler(this,4);"> > 4
+                    </button>
+                    <button class="btn btn-primary rating" value="3" onclick="setRatingHandler(this,3);"> > 3
+                    </button>
+                    <button class="btn btn-primary rating" value="2" onclick="setRatingHandler(this,2);"> > 2
+                    </button>
                 </div>
                 <div id="hotel-list">
                     <ul class="nav nav-pills nav-stacked" data-bind="foreach: hotelList">
@@ -46,7 +43,18 @@
         var map;
     </script>
     <script type="text/javascript" src="app.js"></script>
-    <script async defer type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--     <script type='text/javascript'>
+        $('.rating').click((function(self,rating){
+            console.log(this);
+            return function(){
+                $('.rating').removeClass("active");
+                self.addClass("active");
+                filters.rating = rating;
+                fetchHotels();
+            }
+        })($(this),parseInt($(this).attr("value"))));
+    </script> -->
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?v=3&libraries=places&key=AIzaSyBdA9c4g3FXJAdYsx6UD6SbZRXCfLGcgwc&callback=initMap">
     </script>

@@ -3,6 +3,7 @@ var markers = [];
 var previousMapBounds;
 var zoomAutoComplete;
 var clickedMarkerImage;
+var filters = {};
 
 function initMap(){
     var initialLocation = {lat: 40.758896, lng: -73.985130}; //Times Square
@@ -30,28 +31,36 @@ function initMap(){
     populateMap();
 }
 
-function populateMap(){
-    google.maps.event.addListener(map,'idle',function(){
-        var bounds = map.getBounds();
-        ViewModel.init();
-        var placesService = new google.maps.places.PlacesService(map);
-        placesService.nearbySearch({
-            bounds: bounds,
-            type: "lodging"
-        }, function(results, status, pagination){
-            if (status === google.maps.places.PlacesServiceStatus.OK) {
-                ViewModel.add(results);
-                if (pagination.hasNextPage){ //&& ViewModel.getHotels().length < 40
-                    placeMarkers(results);
-                    //Two second delay enforced by Google's API
-                    pagination.nextPage();
-                }
-                else{
-                    placeMarkers(results);
-                    previousMapBounds = bounds;
+function fetchHotels(){
+    var bounds = map.getBounds();
+    ViewModel.init();
+    var placesService = new google.maps.places.PlacesService(map);
+    placesService.nearbySearch({
+        bounds: bounds,
+        type: "lodging"
+    }, function(results, status, pagination){
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++){
+                if (typeof filters.rating == 'undefined' || results[i].rating >= filters.rating){
+                    ViewModel.add(results[i]);
                 }
             }
-        });
+            if (pagination.hasNextPage){ //&& ViewModel.getHotels().length < 40
+                placeMarkers(results);
+                //Two second delay enforced by Google's API
+                pagination.nextPage();
+            }
+            else{
+                placeMarkers(results);
+                previousMapBounds = bounds;
+            }
+        }
+    });
+}
+
+function populateMap(){
+    google.maps.event.addListener(map,'idle',function(){
+        fetchHotels();
     });
 }
 
@@ -121,6 +130,13 @@ function listviewClickHandler(){
             })(markers[i]), 1400);
         }
     }
+}
+
+function setRatingHandler(self,rating){
+    $('.rating').removeClass("active");
+    $(self).addClass("active");
+    filters.rating = rating;
+    fetchHotels();
 }
 
 
