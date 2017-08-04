@@ -34,24 +34,37 @@ function initMap(){
 function fetchHotels(){
     var bounds = map.getBounds();
     ViewModel.init();
+    deleteMarkers();
     var placesService = new google.maps.places.PlacesService(map);
     placesService.nearbySearch({
         bounds: bounds,
         type: "lodging"
     }, function(results, status, pagination){
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-            for (var i = 0; i < results.length; i++){
-                if (typeof filters.rating == 'undefined' || results[i].rating >= filters.rating){
-                    ViewModel.add(results[i]);
+            var filteredResults = [];
+            if (filters.rating){
+                for (var i = 0; i < results.length; i++){
+                    if (results[i].rating >= filters.rating){
+                        filteredResults.push(results[i]);
+                    }
                 }
             }
+            else {
+                filteredResults = results;
+            }
+            // for (var i = 0; i < results.length; i++){
+            //     if (typeof filters.rating == 'undefined' || results[i].rating >= filters.rating){
+            //         ViewModel.add(results[i]);
+            //     }
+            // }
+            ViewModel.add(filteredResults);
             if (pagination.hasNextPage){ //&& ViewModel.getHotels().length < 40
-                placeMarkers(results);
+                placeMarkers(filteredResults);
                 //Two second delay enforced by Google's API
                 pagination.nextPage();
             }
             else{
-                placeMarkers(results);
+                placeMarkers(filteredResults);
                 previousMapBounds = bounds;
             }
         }
@@ -67,7 +80,7 @@ function populateMap(){
 function placeMarkers(places){
     for (var i = 0; i < places.length; i++){
         var place = places[i];
-        if ((typeof previousMapBounds == 'undefined') || (!previousMapBounds.contains(place.geometry.location))){
+        // if ((typeof previousMapBounds == 'undefined') || (!previousMapBounds.contains(place.geometry.location))){
             var marker = new google.maps.Marker({
             map: map,
             title: place.name,
@@ -92,7 +105,14 @@ function placeMarkers(places){
             marker.addListener('click', function(){
                 this.setIcon(clickedMarkerImage);
             });
-        }
+        // }
+    }
+}
+
+function deleteMarkers(){
+    for (var i = markers.length - 1; i >= 0; i--){
+        markers[i].setMap(null);
+        markers.pop();
     }
 }
 
@@ -136,6 +156,12 @@ function setRatingHandler(self,rating){
     $('.rating').removeClass("active");
     $(self).addClass("active");
     filters.rating = rating;
+    fetchHotels();
+}
+
+function clearRating(){
+    $('.rating').removeClass("active");
+    filters.rating = null;
     fetchHotels();
 }
 

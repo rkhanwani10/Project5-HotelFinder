@@ -36,3 +36,14 @@ html,body {
     border-bottom: thin solid #D3D3D3;
 }
 
+#rating-filter{
+    width: 100%;
+}
+
+#rating-filter h5{
+    display: inline-block;
+}
+
+#rating-buttons{
+    display: inline-block;
+}

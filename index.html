@@ -17,13 +17,18 @@
 <!--                 <input id="zoom-to-area" type="button" value="Zoom"> -->
                     <button class="icon btn btn-primary" onclick="zoomToArea();"><i class="glyphicon glyphicon-search"></i></button>
                 </div>
-                <div id="filter" class="btn-group" data-toggle="buttons">
+                <div id="rating-filter">
+                    <h5>Rating: </h5>
+                    <div id="rating-buttons" class="btn-group" data-toggle="buttons">
                     <button class="btn btn-primary rating" value="4" onclick="setRatingHandler(this,4);"> > 4
                     </button>
                     <button class="btn btn-primary rating" value="3" onclick="setRatingHandler(this,3);"> > 3
                     </button>
                     <button class="btn btn-primary rating" value="2" onclick="setRatingHandler(this,2);"> > 2
                     </button>
+                    <button class="btn btn-primary" id="clear-rating" onclick="clearRating();"> Clear
+                    </button>
+                    </div>
                 </div>
                 <div id="hotel-list">
                     <ul class="nav nav-pills nav-stacked" data-bind="foreach: hotelList">
@@ -44,17 +49,6 @@
     </script>
     <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!--     <script type='text/javascript'>
-        $('.rating').click((function(self,rating){
-            console.log(this);
-            return function(){
-                $('.rating').removeClass("active");
-                self.addClass("active");
-                filters.rating = rating;
-                fetchHotels();
-            }
-        })($(this),parseInt($(this).attr("value"))));
-    </script> -->
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?v=3&libraries=places&key=AIzaSyBdA9c4g3FXJAdYsx6UD6SbZRXCfLGcgwc&callback=initMap">
     </script>

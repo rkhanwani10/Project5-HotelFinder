@@ -17,11 +17,11 @@ var FoursquareClientSecrets = {
 
 var ViewModel = {
     hotelList: ko.observableArray([]),
-    add: function(place){
-        // for (var i=0; i < placesArray.length; i++){
+    add: function(placesArray){
+        for (var i=0; i < placesArray.length; i++){
             // console.log(placesArray[i]);
-        this.hotelList.push(new Hotel(place));
-        // }
+            this.hotelList.push(new Hotel(placesArray[i]));
+        }
         // console.log(this.hotelList());
     },
     init: function(){
