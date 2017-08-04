@@ -36,20 +36,23 @@ html,body {
 .hotel-name{
     border-bottom: thin solid #D3D3D3;
     cursor: pointer;
+    text-align: center;
 }
 
 .nav li span{
-    width: 65%;
+    width: 55%;
     display: inline-block;
     color: #428bca;
+    vertical-align: middle;
 }
 
 .hotel-name img{
-    width: 30%;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     display: inline-block;
     padding-top: 5px;
     padding-bottom: 5px;
+    vertical-align: middle;
 }
 
 #rating-filter{

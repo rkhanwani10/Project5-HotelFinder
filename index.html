@@ -34,7 +34,9 @@
                     <ul class="nav nav-pills nav-stacked" data-bind="foreach: hotelList">
                         <li class="nav-item hotel-name" data-bind="event: { click: listviewClickHandler }">
 <!--                             <a class="d-inline-block" href="#"> -->
-                            <span data-bind="text: name"></span>
+                            <span data-bind="html: listViewInfo"></span>
+<!--                             <span data-bind="text: address"></span> -->
+<!--                             <span data-bind="text: rating"></span> -->
                             <img data-bind="attr: { src: photo }" >
 <!--                             </a> -->
                         </li>

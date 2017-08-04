@@ -8,6 +8,12 @@ var Hotel = function(data) {
     this.photo = data.photos[0].getUrl({
         maxWidth: 640
     });
+    var self = this;
+    this.listViewInfo = ko.computed(function() {
+        var info = '<strong>' + self.name + '</strong><br>' + self.address + '<br> Rating: ' + self.rating +'/5';
+        console.log(info);
+        return info;
+    });
     // this.url = data.website;
     // this.contact = data.formatted_phone_number;
 };
