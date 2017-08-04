@@ -11,7 +11,6 @@ var Hotel = function(data) {
     var self = this;
     this.listViewInfo = ko.computed(function() {
         var info = '<strong>' + self.name + '</strong><br>' + self.address + '<br> Rating: ' + self.rating +'/5';
-        console.log(info);
         return info;
     });
     // this.url = data.website;

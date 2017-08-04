@@ -53,7 +53,7 @@ function fetchHotels(){
             else {
                 filteredResults = results;
             }
-            console.log(filteredResults);
+            // console.log(filteredResults);
             // for (var i = 0; i < results.length; i++){
             //     if (typeof filters.rating == 'undefined' || results[i].rating >= filters.rating){
             //         ViewModel.add(results[i]);
