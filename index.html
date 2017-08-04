@@ -26,16 +26,17 @@
                     </button>
                     <button class="btn btn-primary rating" value="2" onclick="setRatingHandler(this,2);"> > 2
                     </button>
-                    <button class="btn btn-primary" id="clear-rating" onclick="clearRating();"> Clear
+                    <button class="btn btn-primary" id="clear-rating" onclick="clearRating();" disabled="true"> Clear
                     </button>
                     </div>
                 </div>
                 <div id="hotel-list">
                     <ul class="nav nav-pills nav-stacked" data-bind="foreach: hotelList">
                         <li class="nav-item hotel-name" data-bind="event: { click: listviewClickHandler }">
-                            <a href="#">
-                                <span data-bind="text: name"></span>
-                            </a>
+<!--                             <a class="d-inline-block" href="#"> -->
+                            <span data-bind="text: name"></span>
+                            <img data-bind="attr: { src: photo }" >
+<!--                             </a> -->
                         </li>
                     </ul>
                 </div>

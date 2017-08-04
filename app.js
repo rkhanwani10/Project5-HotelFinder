@@ -5,7 +5,9 @@ var Hotel = function(data) {
     this.rating = data.rating;
     this.icon = data.icon;
     this.geometry = data.geometry;
-    // this.photo = data.photo;
+    this.photo = data.photos[0].getUrl({
+        maxWidth: 640
+    });
     // this.url = data.website;
     // this.contact = data.formatted_phone_number;
 };

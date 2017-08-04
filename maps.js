@@ -38,7 +38,8 @@ function fetchHotels(){
     var placesService = new google.maps.places.PlacesService(map);
     placesService.nearbySearch({
         bounds: bounds,
-        type: "lodging"
+        type: "lodging",
+        minPriceLevel: 0
     }, function(results, status, pagination){
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             var filteredResults = [];
@@ -52,6 +53,7 @@ function fetchHotels(){
             else {
                 filteredResults = results;
             }
+            console.log(filteredResults);
             // for (var i = 0; i < results.length; i++){
             //     if (typeof filters.rating == 'undefined' || results[i].rating >= filters.rating){
             //         ViewModel.add(results[i]);
@@ -140,7 +142,7 @@ function zoomToArea(){
 
 function listviewClickHandler(){
     for (var i = 0; i < markers.length; i++){
-        if (markers[i].title == $(this)[0].name){
+        if (markers[i].title == this.name){
             markers[i].setAnimation(google.maps.Animation.BOUNCE);
             markers[i].setIcon(clickedMarkerImage);
             setTimeout((function(marker){
@@ -156,12 +158,14 @@ function setRatingHandler(self,rating){
     $('.rating').removeClass("active");
     $(self).addClass("active");
     filters.rating = rating;
+    $('#clear-rating').prop('disabled',false);
     fetchHotels();
 }
 
 function clearRating(){
     $('.rating').removeClass("active");
     filters.rating = null;
+    $('#clear-rating').prop('disabled',true);
     fetchHotels();
 }
 
