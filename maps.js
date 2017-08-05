@@ -152,6 +152,16 @@ function listviewClickHandler(){
             })(markers[i]), 1400);
         }
     }
+    if (ViewModel.getRecommendedNearbyPlaces(this).length == 0){
+        var self = this;
+        $.get(this.foursquareDataUrl, function(data){
+            var recommendedPlaces = data["response"]["groups"][0]["items"];
+            recommendedPlaces.forEach(function(place){
+                ViewModel.addRecommendedPlace(self, place["venue"]);
+            });
+            console.log(ViewModel.getRecommendedNearbyPlaces(self));
+        });
+    }
 }
 
 function setRatingHandler(self,rating){
