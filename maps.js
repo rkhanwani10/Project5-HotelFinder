@@ -10,7 +10,8 @@ function initMap(){
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: initialLocation,
-        zoom: 15
+        zoom: 15,
+        scrollwheel: false
     });
 
     infoWindow = new google.maps.InfoWindow({
@@ -53,7 +54,7 @@ function fetchHotels(){
             else {
                 filteredResults = results;
             }
-            // console.log(filteredResults);
+            console.log(filteredResults);
             // for (var i = 0; i < results.length; i++){
             //     if (typeof filters.rating == 'undefined' || results[i].rating >= filters.rating){
             //         ViewModel.add(results[i]);
@@ -104,9 +105,12 @@ function placeMarkers(places){
                 infoWindow.close();
             });
 
-            marker.addListener('click', function(){
-                this.setIcon(clickedMarkerImage);
-            });
+            marker.addListener('click', (function(marker){
+                return function(){
+                    this.setIcon(clickedMarkerImage);
+                    markerClickHandler(marker);
+                }
+            })(marker));
         // }
     }
 }
@@ -152,16 +156,60 @@ function listviewClickHandler(){
             })(markers[i]), 1400);
         }
     }
+    var self = this;
     if (ViewModel.getRecommendedNearbyPlaces(this).length == 0){
-        var self = this;
         $.get(this.foursquareDataUrl, function(data){
             var recommendedPlaces = data["response"]["groups"][0]["items"];
             recommendedPlaces.forEach(function(place){
                 ViewModel.addRecommendedPlace(self, place["venue"]);
             });
             console.log(ViewModel.getRecommendedNearbyPlaces(self));
+            ViewModel.currentRecommendedNearbyPlaces(ViewModel.getRecommendedNearbyPlaces(self));
         });
     }
+    else {
+        ViewModel.currentRecommendedNearbyPlaces(ViewModel.getRecommendedNearbyPlaces(this));
+    }
+    var placesService = new google.maps.places.PlacesService(map);
+    placesService.getDetails({placeId: this.id}, function(result, status){
+        console.log(result);
+        self.allPhotos = result.photos;
+        self.website = result.website;
+        self.phone = result.formatted_phone_number;
+        ViewModel.currentHotel(self);
+        console.log(ViewModel.currentHotel());
+    });
+    $('#recommended-nearby h4').show();
+}
+
+function markerClickHandler(marker){
+    ViewModel.getHotels().forEach(function(hotel){
+        if (marker.title == hotel.name){
+            if (ViewModel.getRecommendedNearbyPlaces(hotel).length == 0){
+                $.get(hotel.foursquareDataUrl, function(data){
+                    var recommendedPlaces = data["response"]["groups"][0]["items"];
+                    recommendedPlaces.forEach(function(place){
+                        ViewModel.addRecommendedPlace(hotel, place["venue"]);
+                    });
+                    console.log(ViewModel.getRecommendedNearbyPlaces(hotel));
+                    ViewModel.currentRecommendedNearbyPlaces(ViewModel.getRecommendedNearbyPlaces(hotel));
+                });
+            }
+            else {
+                ViewModel.currentRecommendedNearbyPlaces(ViewModel.getRecommendedNearbyPlaces(hotel));
+            }
+            var placesService = new google.maps.places.PlacesService(map);
+            placesService.getDetails({placeId: hotel.id}, function(result, status){
+                console.log(result);
+                hotel.allPhotos = result.photos;
+                hotel.website = result.website;
+                hotel.phone = result.formatted_phone_number;
+                ViewModel.currentHotel(hotel);
+                console.log(ViewModel.currentHotel());
+            });
+            $('#recommended-nearby h4').show();
+        }
+    });
 }
 
 function setRatingHandler(self,rating){
@@ -179,5 +227,6 @@ function clearRating(){
     fetchHotels();
 }
 
-
-
+function nearbyRecommendedHandler(){
+    window.open(this.url,'_blank');
+}

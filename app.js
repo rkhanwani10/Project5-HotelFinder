@@ -7,7 +7,9 @@ var Hotel = function(data, foursquareDataUrl) {
     this.geometry = data.geometry;
     this.foursquareDataUrl = foursquareDataUrl;
     this.recommendedNearbyPlaces = ko.observableArray([]);
+    this.photoAvailability = false;
     if (data.photos){
+        this.photoAvailability = true;
         this.photo = data.photos[0].getUrl({
             maxWidth: 640
         });
@@ -32,6 +34,23 @@ var RecommendedPlace = function(data){
     if (data.price){
         this.price = data.price.tier;
     }
+    var self = this;
+    this.sidebarInfo = ko.computed(function() {
+        var toReturn = '<strong>' + self.name + '</strong>' + '<br>' + '<small class="text-muted">' + self.categories[0].name + ' - ' + self.location.distance + 'm';
+        if (self.price){
+            toReturn += ' - ' + '$'.repeat(self.price);
+        }
+        if (self.rating){
+            toReturn += ' - ' + 'Rating: ' + self.rating + '/10.0';
+        }
+        toReturn += '</small><br>' + self.location.formattedAddress[0];
+        if (self.phone){
+            toReturn += '<br>Phone: ' + self.phone;
+        }
+        return toReturn;
+        // '<strong>' + self.name + '</strong>' + '<br>' + '<small class="text-muted">' + self.categories[0].name + ' - ' + self.price + '</small><br>' + self.location.formattedAddress[0] + '<br>' + 'Phone: ' + self.phone;
+        // + '<br>' + '<a target="_blank" href="' + self.url + '">' + self.url + '</a>';
+    });
 };
 
 var FoursquareClientSecrets = {
@@ -40,7 +59,9 @@ var FoursquareClientSecrets = {
 };
 
 var ViewModel = {
+    currentHotel: ko.observable(),
     hotelList: ko.observableArray([]),
+    currentRecommendedNearbyPlaces: ko.observableArray([]),
     addRecommendedPlace: function(hotel, place){
         hotel.recommendedNearbyPlaces.push(new RecommendedPlace(place));
     },
@@ -61,13 +82,7 @@ var ViewModel = {
     },
     init: function(){
         this.hotelList([]);
-        var self = this;
-        // this.hotelList = ko.observableArray([]);
-
-        // var url = "https://api.foursquare.com/v2/venues/explore?v=201710715&near=Times%20Square&query=&intent=browse&radius=500&categoryId=4bf58dd8d48988d1fa931735&client_id=45A1ZCY2LJZE2PCX13IZLOCZ5IOZVLVVHXKQMNMMY35EQVKK&client_secret=QFORSFOG0JFUOYCHYIEA41EHBBCJR440KD2KOANCKNI4QNHE";
-        var url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=lodging&key=AIzaSyBdA9c4g3FXJAdYsx6UD6SbZRXCfLGcgwc"
-
-
+        this.currentRecommendedNearbyPlaces([]);
     },
     getHotels: function(){
         return this.hotelList();

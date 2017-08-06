@@ -17,7 +17,7 @@ html,body {
     border-top: 0;
 }
 
-.left{
+.sidebar{
     height: 100%;
     text-align: center;
 }
@@ -29,13 +29,14 @@ html,body {
 }
 
 #hotel-list{
-/*    margin-top: 10px;*/
-    height: 50%;
+    margin-top: 10px;
+    height: 85%;
     overflow-y: auto;
-    position: absolute;
-    bottom: 10px;
+/*    position: absolute;
+    bottom: 10px;*/
     text-align: center;
     width: 100%;
+    padding-right: 10px;
 }
 
 .hotel-name{
@@ -44,7 +45,7 @@ html,body {
     text-align: center;
 }
 
-.nav li span{
+.list-info{
     width: 55%;
     display: inline-block;
     color: #428bca;
@@ -72,3 +73,48 @@ html,body {
 #rating-buttons{
     display: inline-block;
 }
+
+#recommended-nearby{
+    height: 50%;
+    overflow-y: auto;
+    position: absolute;
+    bottom: 10px;
+}
+
+#hotel-img{
+    width: 100%;
+    height: 25%;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+#hotel-img img{
+    height: 100%;
+    width: 100%;
+}
+
+#hotel-info{
+    height: 20%;
+    overflow-y: auto;
+}
+
+#recommended-nearby{
+    border-top: thin solid #D3D3D3;
+}
+
+#recommended-nearby h4{
+    display: none;
+}
+
+.recommended-info{
+    cursor: pointer;
+}
+
+.recommended-info strong{
+    color: #428bca;
+}
+
+.recommended-item{
+    border-bottom: thin solid #D3D3D3;
+}
+
