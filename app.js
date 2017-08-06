@@ -16,11 +16,10 @@ var Hotel = function(data, foursquareDataUrl) {
     }
     var self = this;
     this.listViewInfo = ko.computed(function() {
-        var info = '<strong>' + self.name + '</strong><br>' + self.address + '<br> Rating: ' + self.rating +'/5';
+        var info = '<strong>' + self.name + '</strong><br>' + self.address;
+        info += '<br> Rating: ' + self.rating +'/5';
         return info;
     });
-    // this.url = data.website;
-    // this.contact = data.formatted_phone_number;
 };
 
 var RecommendedPlace = function(data){
@@ -36,7 +35,9 @@ var RecommendedPlace = function(data){
     }
     var self = this;
     this.sidebarInfo = ko.computed(function() {
-        var toReturn = '<strong>' + self.name + '</strong>' + '<br>' + '<small class="text-muted">' + self.categories[0].name + ' - ' + self.location.distance + 'm';
+        var toReturn = '<strong>' + self.name + '</strong>' + '<br>';
+        toReturn += '<small class="text-muted">' + self.categories[0].name;
+        toReturn += ' - ' + self.location.distance + 'm';
         if (self.price){
             toReturn += ' - ' + '$'.repeat(self.price);
         }
@@ -48,14 +49,12 @@ var RecommendedPlace = function(data){
             toReturn += '<br>Phone: ' + self.phone;
         }
         return toReturn;
-        // '<strong>' + self.name + '</strong>' + '<br>' + '<small class="text-muted">' + self.categories[0].name + ' - ' + self.price + '</small><br>' + self.location.formattedAddress[0] + '<br>' + 'Phone: ' + self.phone;
-        // + '<br>' + '<a target="_blank" href="' + self.url + '">' + self.url + '</a>';
     });
 };
 
 var FoursquareClientSecrets = {
-    "client_id": "45A1ZCY2LJZE2PCX13IZLOCZ5IOZVLVVHXKQMNMMY35EQVKK",
-    "client_secret": "QFORSFOG0JFUOYCHYIEA41EHBBCJR440KD2KOANCKNI4QNHE"
+    client_id: "45A1ZCY2LJZE2PCX13IZLOCZ5IOZVLVVHXKQMNMMY35EQVKK",
+    client_secret: "QFORSFOG0JFUOYCHYIEA41EHBBCJR440KD2KOANCKNI4QNHE"
 };
 
 var ViewModel = {
@@ -75,14 +74,15 @@ var ViewModel = {
         for (var i=0; i < placesArray.length; i++){
             lat = placesArray[i].geometry.location.lat();
             lng = placesArray[i].geometry.location.lng();
-            url = "https://api.foursquare.com/v2/venues/explore?v=201710715&ll=" + lat + "," + lng + "&section=trending&client_id=45A1ZCY2LJZE2PCX13IZLOCZ5IOZVLVVHXKQMNMMY35EQVKK&client_secret=QFORSFOG0JFUOYCHYIEA41EHBBCJR440KD2KOANCKNI4QNHE"
+            url = "https://api.foursquare.com/v2/venues/explore?v=201710715&ll=";
+            url += lat + "," + lng + "&section=trending";
+            url += "&client_id=" + FoursquareClientSecrets.client_id;
+            url += "&client_secret=" + FoursquareClientSecrets.client_secret;
             this.hotelList.push(new Hotel(placesArray[i], url));
         }
-        // console.log(this.hotelList());
     },
     init: function(){
         this.hotelList([]);
-        this.currentRecommendedNearbyPlaces([]);
     },
     getHotels: function(){
         return this.hotelList();

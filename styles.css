@@ -32,8 +32,6 @@ html,body {
     margin-top: 10px;
     height: 85%;
     overflow-y: auto;
-/*    position: absolute;
-    bottom: 10px;*/
     text-align: center;
     width: 100%;
     padding-right: 10px;
@@ -63,7 +61,7 @@ html,body {
 
 #rating-filter{
     width: 100%;
-/*    text-align: center;*/
+    text-align: center;
 }
 
 #rating-filter h5{
@@ -72,13 +70,6 @@ html,body {
 
 #rating-buttons{
     display: inline-block;
-}
-
-#recommended-nearby{
-    height: 50%;
-    overflow-y: auto;
-    position: absolute;
-    bottom: 10px;
 }
 
 #hotel-img{
@@ -99,7 +90,12 @@ html,body {
 }
 
 #recommended-nearby{
+    height: 50%;
+    overflow-y: auto;
+    position: absolute;
+    bottom: 10px;
     border-top: thin solid #D3D3D3;
+    width: 100%;
 }
 
 #recommended-nearby h4{

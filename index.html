@@ -2,6 +2,7 @@
 <head>
     <title>Udacity Maps Project</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <script
@@ -13,8 +14,7 @@
         <div id="row">
             <div class="aside col-sm-3 sidebar">
                 <div id="search">
-                    <input id="search-bar" type="text" placeholder="Enter your favorite area!">
-<!--                 <input id="zoom-to-area" type="button" value="Zoom"> -->
+                    <input id="search-bar" type="text" placeholder="Destination">
                     <button class="icon btn btn-primary" onclick="zoomToArea();"><i class="glyphicon glyphicon-search"></i></button>
                 </div>
                 <div id="rating-filter">
@@ -26,21 +26,17 @@
                     </button>
                     <button class="btn btn-primary rating" value="2" onclick="setRatingHandler(this,2);"> > 2
                     </button>
-                    <button class="btn btn-primary" id="clear-rating" onclick="clearRating();" disabled="true"> Clear
+                    <button class="btn btn-primary" id="clear-rating" onclick="clearRating();" disabled> Clear
                     </button>
                     </div>
                 </div>
                 <div id="hotel-list">
                     <ul class="nav nav-pills nav-stacked" data-bind="foreach: hotelList">
                         <li class="nav-item hotel-name" data-bind="event: { click: listviewClickHandler }">
-<!--                             <a class="d-inline-block" href="#"> -->
                             <span class="list-info" data-bind="html: listViewInfo"></span>
-<!--                             <span data-bind="text: address"></span> -->
-<!--                             <span data-bind="text: rating"></span> -->
                             <!-- ko if: photoAvailability -->
-                                <img data-bind="attr: { src: photo }" >
+                                <img data-bind="attr: {src: photo}, {alt: name}">
                             <!-- /ko -->
-<!--                             </a> -->
                         </li>
                     </ul>
                 </div>
@@ -49,19 +45,18 @@
             <div class="aside col-sm-3 sidebar">
                 <div id="hotel-img" data-bind="with: currentHotel">
                     <!-- ko if: photoAvailability -->
-                        <img data-bind="attr: {src:photo}">
+                        <img data-bind="attr: {src:photo}, {alt: name}">
                     <!-- /ko -->
                 </div>
                 <div id="hotel-info" data-bind="with: currentHotel">
                     <h3 data-bind="text: name"></h3>
                     <h4 class="text-muted" data-bind="text: address"></h4>
                     <h5 class="text-muted" data-bind="text: phone"></h5>
-                    <span class="text-muted">Rating: <span class="text-muted" data-bind="text: rating"></span>/5</span>
+                    <span class="text-muted">Rating: <span class="text-muted" data-bind="text: rating"></span>/5<br></span>
                     <a data-bind="attr: {href: website}, text: website"></a>
                 </div>
                 <div id="recommended-nearby">
                     <h4>Things to do nearby <br> <small>Powered by Foursquare</small></h4>
-<!--                     <img data-bind="attr: {src:currentHotel().photo}"> -->
                     <ul class="nav nav-pills nav-stacked" data-bind="foreach: currentRecommendedNearbyPlaces">
                         <li class="nav-item recommended-item">
                             <span class="recommended-info" data-bind="html: sidebarInfo, event: {click: nearbyRecommendedHandler}"></span>
