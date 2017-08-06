@@ -65,6 +65,9 @@ function fetchHotels(){
                 previousMapBounds = bounds;
             }
         }
+        else{
+            alert('There was a problem with Google data retrieval');
+        }
     });
 }
 
