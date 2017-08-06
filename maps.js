@@ -5,6 +5,11 @@ var zoomAutoComplete;
 var clickedMarkerImage;
 var filters = {};
 
+/*
+    This function creates a Google Map on an initial location and sets some
+    of the global variables to be used in other functions. At the end it calls
+    populateMap to initiate data retrieval
+*/
 function initMap(){
     var initialLocation = {lat: 40.758896, lng: -73.985130}; //Times Square
 
@@ -32,6 +37,18 @@ function initMap(){
     populateMap();
 }
 
+function populateMap(){
+    google.maps.event.addListener(map,'idle',function(){
+        fetchHotels();
+    });
+}
+
+/*
+    This function executes a Nearby Search from the Google Places API on the
+    area contained within the current map bounds. The type of places is
+    restricted to "lodging" to find hotels. placeMarkers is called after each
+    page of data is processed to place appropriate markers on the map.
+*/
 function fetchHotels(){
     var bounds = map.getBounds();
     ViewModel.init();
@@ -71,12 +88,12 @@ function fetchHotels(){
     });
 }
 
-function populateMap(){
-    google.maps.event.addListener(map,'idle',function(){
-        fetchHotels();
-    });
-}
-
+/*
+    This function creates a marker for each place in a list of places and places
+    them at the place's location on the map. Then, listeners are added to
+    invoke InfoWindow functionality on hovers and clicks, and to start
+    populating sidebar data on a click
+*/
 function placeMarkers(places){
     for (var i = 0; i < places.length; i++){
         var place = places[i];
