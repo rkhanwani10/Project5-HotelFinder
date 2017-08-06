@@ -53,7 +53,7 @@
                     <h4 class="text-muted" data-bind="text: address"></h4>
                     <h5 class="text-muted" data-bind="text: phone"></h5>
                     <span class="text-muted">Rating: <span class="text-muted" data-bind="text: rating"></span>/5<br></span>
-                    <a data-bind="attr: {href: website}, text: website"></a>
+                    <a data-bind="attr: {href: website}">Website</a>
                 </div>
                 <div id="recommended-nearby">
                     <h4>Things to do nearby <br> <small>Powered by Foursquare</small></h4>
@@ -70,9 +70,10 @@
         var map;
     </script>
     <script type="text/javascript" src="app.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script async defer type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?v=3&libraries=places&key=AIzaSyBdA9c4g3FXJAdYsx6UD6SbZRXCfLGcgwc&callback=initMap">
     </script>
     <script type="text/javascript" src="maps.js"></script>
+    <script type="text/javascript" src="handlers.js"></script>
 </body>
