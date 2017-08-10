@@ -8,31 +8,23 @@
     <script
     src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js">
     </script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
     <div id="container">
         <div id="row">
             <div class="aside col-sm-3 sidebar">
                 <div id="search">
-                    <input id="search-bar" type="text" placeholder="Destination">
-                    <button class="icon btn btn-primary" onclick="zoomToArea();"><i class="glyphicon glyphicon-search"></i></button>
+                    <input id="search-bar" type="text" data-bind="value: currentArea" placeholder="Destination">
+                    <button class="icon btn btn-primary" data-bind="click: zoomToArea"><i class="glyphicon glyphicon-search"></i></button>
                 </div>
                 <div id="rating-filter">
-                    <h5>Rating: </h5>
-                    <div id="rating-buttons" class="btn-group" data-toggle="buttons">
-                    <button class="btn btn-primary rating" value="4" onclick="setRatingHandler(this,4);"> > 4
-                    </button>
-                    <button class="btn btn-primary rating" value="3" onclick="setRatingHandler(this,3);"> > 3
-                    </button>
-                    <button class="btn btn-primary rating" value="2" onclick="setRatingHandler(this,2);"> > 2
-                    </button>
-                    <button class="btn btn-primary" id="clear-rating" onclick="clearRating();" disabled> Clear
-                    </button>
-                    </div>
+                    <h5>Minimum Rating: </h5>
+                    <select data-bind="options: ratings, value: currentRating, valueAllowUnset: true"></select>
                 </div>
                 <div id="hotel-list">
-                    <ul class="nav nav-pills nav-stacked" data-bind="foreach: hotelList">
-                        <li class="nav-item hotel-name" data-bind="event: { click: listviewClickHandler }">
+                    <ul class="nav nav-pills nav-stacked" data-bind="foreach: getHotels">
+                        <li class="nav-item hotel-name" data-bind="click: listviewClickHandler">
                             <span class="list-info" data-bind="html: listViewInfo"></span>
                             <!-- ko if: photoAvailability -->
                                 <img data-bind="attr: {src: photo}, {alt: name}">
@@ -59,7 +51,7 @@
                     <h4>Things to do nearby <br> <small>Powered by Foursquare</small></h4>
                     <ul class="nav nav-pills nav-stacked" data-bind="foreach: currentRecommendedNearbyPlaces">
                         <li class="nav-item recommended-item">
-                            <span class="recommended-info" data-bind="html: sidebarInfo, event: {click: nearbyRecommendedHandler}"></span>
+                            <span class="recommended-info" data-bind="html: sidebarInfo, click: nearbyRecommendedHandler"></span>
                         </li>
                     </ul>
                 </div>
@@ -69,11 +61,9 @@
     <script type='text/javascript'>
         var map;
     </script>
-    <script type="text/javascript" src="app.js"></script>
-    <script async defer type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?v=3&libraries=places&key=AIzaSyBdA9c4g3FXJAdYsx6UD6SbZRXCfLGcgwc&callback=initMap">
-    </script>
     <script type="text/javascript" src="maps.js"></script>
+    <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="handlers.js"></script>
+    <script async defer onerror="errorHandler();" src="https://maps.googleapis.com/maps/api/js?v=3&libraries=places&key=AIzaSyBdA9c4g3FXJAdYsx6UD6SbZRXCfLGcgwc&callback=initMap">
+    </script>
 </body>

@@ -5,7 +5,7 @@
 */
 function retrieveHotelData(hotel){
     if (ViewModel.getRecommendedNearbyPlaces(hotel).length == 0){
-        $.get(hotel.foursquareDataUrl, function(data){
+        var jqxhr = $.get(hotel.foursquareDataUrl, function(data){
             if (data["meta"]["code"] == 200){
                 var recommendedPlaces = data["response"]["groups"][0]["items"];
                 recommendedPlaces.forEach(function(place){
@@ -15,9 +15,14 @@ function retrieveHotelData(hotel){
                 ViewModel.currentRecommendedNearbyPlaces(newNearbyPlaces);
             }
             else{
-                alert('There was a problem with Foursquare data retieval')
+                console.log("status: " + data["meta"]["code"]);
+                alert('There was a problem with Foursquare data retieval');
             }
         });
+        jqxhr.fail(function(){
+            console.log("There may be a problem with the URL");
+            alert('There was a problem with Foursquare data retieval');
+        })
     }
     else {
         var newNearbyPlaces = ViewModel.getRecommendedNearbyPlaces(hotel);
@@ -32,6 +37,7 @@ function retrieveHotelData(hotel){
             ViewModel.currentHotel(hotel);
         }
         else{
+            console.log("status: " + status);
             alert('There was a problem with Google data retieval');
         }
     });
@@ -61,21 +67,11 @@ function markerClickHandler(marker){
     });
 }
 
-function setRatingHandler(self,rating){
-    $('.rating').removeClass("active");
-    $(self).addClass("active");
-    filters.rating = rating;
-    $('#clear-rating').prop('disabled',false);
-    fetchHotels();
-}
-
-function clearRating(){
-    $('.rating').removeClass("active");
-    filters.rating = null;
-    $('#clear-rating').prop('disabled',true);
-    fetchHotels();
-}
-
 function nearbyRecommendedHandler(){
     window.open(this.url,'_blank');
+}
+
+function errorHandler(e){
+    console.log("There was an error with the Google Maps API. Please check the request");
+    alert("There was an error with the Google Maps API");
 }

@@ -71,14 +71,14 @@ function fetchHotels(){
             else {
                 filteredResults = results;
             }
-            ViewModel.add(filteredResults);
+            ViewModel.add(results);
             if (pagination.hasNextPage){
-                placeMarkers(filteredResults);
+                placeMarkers();
                 //Two second delay enforced by Google's API
                 pagination.nextPage();
             }
             else{
-                placeMarkers(filteredResults);
+                placeMarkers();
                 previousMapBounds = bounds;
             }
         }
@@ -94,7 +94,8 @@ function fetchHotels(){
     invoke InfoWindow functionality on hovers and clicks, and to start
     populating sidebar data on a click
 */
-function placeMarkers(places){
+function placeMarkers(){
+    var places = ViewModel.getHotels();
     for (var i = 0; i < places.length; i++){
         var place = places[i];
         var marker = new google.maps.Marker({
@@ -124,7 +125,13 @@ function placeMarkers(places){
                 content += place.vicinity + '</small></h5>';
                 infoWindow.setContent(content);
                 infoWindow.open(map,marker);
-                this.setIcon(clickedMarkerImage);
+                marker.setIcon(clickedMarkerImage);
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+                setTimeout((function(marker){
+                    return function(){
+                        marker.setAnimation(null);
+                    }
+                })(marker), 1400);
                 markerClickHandler(marker);
             }
         })(marker, place));
@@ -139,8 +146,10 @@ function deleteMarkers(){
 }
 
 function zoomToArea(){
+    ViewModel.currentArea(zoomAutoComplete.getPlace().formatted_address);
     var geocoder = new google.maps.Geocoder();
-    var address = document.getElementById('search-bar').value;
+    var address = ViewModel.currentArea();
+    console.log(address);
     if (address == '') {
         window.alert('You must enter an area, or address.');
     }

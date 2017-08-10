@@ -61,6 +61,9 @@ var ViewModel = {
     currentHotel: ko.observable(),
     hotelList: ko.observableArray([]),
     currentRecommendedNearbyPlaces: ko.observableArray([]),
+    ratings: ko.observableArray([4,3,2,1,"Clear"]),
+    currentRating: ko.observable(),
+    currentArea: ko.observable(),
     addRecommendedPlace: function(hotel, place){
         hotel.recommendedNearbyPlaces.push(new RecommendedPlace(place));
     },
@@ -83,10 +86,19 @@ var ViewModel = {
     },
     init: function(){
         this.hotelList([]);
-    },
-    getHotels: function(){
-        return this.hotelList();
+        this.currentRating.subscribe(fetchHotels);
     }
 };
+
+ViewModel.getHotels = ko.computed(function() {
+    if (typeof ViewModel.currentRating() == "number"){
+        return ko.utils.arrayFilter(ViewModel.hotelList(), function(hotel) {
+            return hotel.rating >= ViewModel.currentRating();
+        });
+    }
+    else{
+        return ViewModel.hotelList();
+    }
+});
 
 ko.applyBindings(ViewModel);
