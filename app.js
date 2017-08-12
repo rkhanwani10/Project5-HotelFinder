@@ -1,7 +1,7 @@
 var Hotel = function(data, foursquareDataUrl) {
     this.id = data.place_id;
     this.name = data.name;
-    this.address = data.vicinity;
+    this.vicinity = data.vicinity;
     this.rating = data.rating;
     this.icon = data.icon;
     this.geometry = data.geometry;
@@ -16,7 +16,7 @@ var Hotel = function(data, foursquareDataUrl) {
     }
     var self = this;
     this.listViewInfo = ko.computed(function() {
-        var info = '<strong>' + self.name + '</strong><br>' + self.address;
+        var info = '<strong>' + self.name + '</strong><br>' + self.vicinity;
         info += '<br> Rating: ' + self.rating +'/5';
         return info;
     });

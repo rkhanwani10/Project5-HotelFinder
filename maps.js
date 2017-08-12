@@ -60,17 +60,6 @@ function fetchHotels(){
         minPriceLevel: 0
     }, function(results, status, pagination){
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-            var filteredResults = [];
-            if (filters.rating){
-                for (var i = 0; i < results.length; i++){
-                    if (results[i].rating >= filters.rating){
-                        filteredResults.push(results[i]);
-                    }
-                }
-            }
-            else {
-                filteredResults = results;
-            }
             ViewModel.add(results);
             if (pagination.hasNextPage){
                 placeMarkers();
@@ -121,8 +110,11 @@ function placeMarkers(){
 
         marker.addListener('click', (function(marker, place){
             return function(){
-                var content = '<h5>' + place.name + '<br> <small>';
-                content += place.vicinity + '</small></h5>';
+                var content = '<h5>' + place.name;
+                if (place.vicinity){
+                    content += '<br> <small>' + place.vicinity + '</small>';
+                }
+                content += '</h5>';
                 infoWindow.setContent(content);
                 infoWindow.open(map,marker);
                 marker.setIcon(clickedMarkerImage);
@@ -149,7 +141,6 @@ function zoomToArea(){
     ViewModel.currentArea(zoomAutoComplete.getPlace().formatted_address);
     var geocoder = new google.maps.Geocoder();
     var address = ViewModel.currentArea();
-    console.log(address);
     if (address == '') {
         window.alert('You must enter an area, or address.');
     }
